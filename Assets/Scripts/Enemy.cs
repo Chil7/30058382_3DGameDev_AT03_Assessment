@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
     //Speed
     [SerializeField] private float patrolSpeed;
     [SerializeField] private float chaseSpeed;
+    [SerializeField] private float huntingSpeed;
+    
 
     public StateMachine StateMachine { get; private set; }
 
@@ -84,35 +86,41 @@ public class Enemy : MonoBehaviour
         {
         }
 
-        float timeSeconds;
+        float timeSecondsIdle;
 
         public override void OnEnter()
         {
             Debug.Log("On Idle");
             //play idle animation
             instance.agent.speed = 0;
-            timeSeconds = Random.Range(3, 10);
-            Debug.Log(timeSeconds);
+            timeSecondsIdle = Random.Range(3f, 10f);
+            Debug.Log(timeSecondsIdle);
+            instance.StartCoroutine(OnIdle());
         }
 
         public override void OnUpdate()
         {
-            //Put timer
             //If player is within detection range; Chase player
             if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.detectionDistance)
             {
                 instance.StateMachine.SetState(new ChaseState(instance));
             }
-            else if (Vector3.Distance(instance.transform.position, instance.navTarget.transform.position) > instance.stoppingDistance)
-            {
-                //Switch to Patrol State
-                instance.StateMachine.SetState(new PatrolState(instance));
-            }
         }
 
         public override void OnExit()
         {
+            //If player is detected within Idle countdown, it will stop the coroutine
+            instance.StopAllCoroutines();
+        }
 
+        IEnumerator OnIdle()
+        {
+            while (timeSecondsIdle > 0)
+            {
+                yield return new WaitForSeconds(1f);
+                timeSecondsIdle--;
+            }
+            instance.StateMachine.SetState(new PatrolState(instance));
         }
     }
 
@@ -155,7 +163,14 @@ public class Enemy : MonoBehaviour
 
         public override void OnUpdate()
         {
-
+            if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.detectionDistance)
+            {
+                instance.agent.SetDestination(instance.playerTarget.transform.position);
+            }
+            else
+            {
+                instance.StateMachine.SetState(new HuntingState(instance));
+            }
         }
 
         public override void OnExit()
@@ -164,11 +179,52 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public class HuntingState : EnemyMoveState
+    {
+        public HuntingState(Enemy _instance) : base(_instance)
+        {
+        }
+
+        float timeSecondsHunt;
+
+        public override void OnEnter()
+        {
+            Debug.Log("Hunting");
+            //play walk hunting animation (similar to walk)
+            instance.agent.speed = instance.huntingSpeed;
+            timeSecondsHunt = Random.Range(5f, 10f);
+            Debug.Log(timeSecondsHunt);
+            instance.StartCoroutine(OnHunt());
+        }
+
+        public override void OnUpdate()
+        {
+    
+        }
+
+        public override void OnExit()
+        {
+ 
+        }
+
+        IEnumerator OnHunt()
+        {
+            while (timeSecondsHunt > 0)
+            {
+                yield return new WaitForSeconds(1f);
+                timeSecondsHunt--;
+            }
+            instance.StateMachine.SetState(new PatrolState(instance));
+        }
+    }
+
     public class StunState : EnemyMoveState
     {
         public StunState(Enemy _instance) : base(_instance)
         {
         }
+
+        float timeSecondsStun;
 
         public override void OnEnter()
         {
@@ -210,5 +266,16 @@ public class Enemy : MonoBehaviour
         {
 
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        //Detection Distance
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionDistance);
+
+        //Attack Range
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
 }
