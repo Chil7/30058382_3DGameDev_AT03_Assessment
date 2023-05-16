@@ -10,8 +10,12 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
 
+    //GameOver
+    private bool playerCaught = false;
+    public delegate void GameEndDelegate();
+    public event GameEndDelegate GameOverEvent = delegate { };
+
     //Targets
-    [SerializeField] private GameObject navTarget;
     [SerializeField] private GameObject playerTarget;
 
     //Ranges
@@ -23,7 +27,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float patrolSpeed;
     [SerializeField] private float chaseSpeed;
     [SerializeField] private float huntingSpeed;
-
+    
     //Hunting State
     [SerializeField] LayerMask whatIsGround;
     [SerializeField] float huntPointRange;
@@ -134,11 +138,17 @@ public class Enemy : MonoBehaviour
         {
         }
 
+        private List<Area> areaList = new List<Area>();
+        Area currArea = GameManager.Instance.Areas[0];
+
         public override void OnEnter()
         {
             Debug.Log("On Patrol");
+
             //play walk cycle animation
             instance.agent.speed = instance.patrolSpeed;
+
+            SearchForNewArea();
         }
 
         public override void OnUpdate()
@@ -148,11 +158,63 @@ public class Enemy : MonoBehaviour
             {
                 instance.StateMachine.SetState(new ChaseState(instance));
             }
+            else if (Vector3.Distance(instance.transform.position, currArea.transform.position) < instance.stoppingDistance)
+            {
+                currArea.isSearched = true;
+                instance.StateMachine.SetState(new IdleState(instance));
+            }
         }
 
         public override void OnExit()
         {
             
+        }
+
+        private void SearchForNewArea()
+        {
+            bool _isAreaSet = false;
+            Area _currentArea = currArea;
+
+            areaList.Clear();
+            areaList.Add(_currentArea);
+
+            while (_isAreaSet == false)
+            {
+                if (_currentArea.isSearched == false)
+                {
+                    _isAreaSet = true;
+                    MoveToArea(_currentArea);
+                    break;
+                }
+                else if (_currentArea.isSearched == true)
+                {
+                    _isAreaSet = true;
+                    foreach (Area areas in _currentArea.Neighbour)
+                    {
+                        areaList.Add(areas);
+                    }
+                    areaList.Remove(_currentArea);
+                    _currentArea = areaList[areaList.Count - 1];
+                    currArea = _currentArea;
+                    MoveToArea(currArea);
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+                
+            }
+        }
+
+        public void MoveToArea(Area area)
+        {
+            //Go to the designated area
+            if (Vector3.Distance(instance.transform.position, area.transform.position) > instance.stoppingDistance)
+            {
+                instance.agent.SetDestination(area.transform.position);
+            }
+            Debug.Log(area);
         }
     }
 
@@ -259,6 +321,7 @@ public class Enemy : MonoBehaviour
             float randomZ = Random.Range(-instance.huntPointRange, instance.huntPointRange);
             float randomX = Random.Range(-instance.huntPointRange, instance.huntPointRange);
 
+            //Set Hunt point
             huntPoint = new Vector3(instance.transform.position.x + randomX, instance.transform.position.y, instance.transform.position.z + randomZ);
 
             if (Physics.Raycast(huntPoint, -instance.transform.up, 2f, instance.whatIsGround))
