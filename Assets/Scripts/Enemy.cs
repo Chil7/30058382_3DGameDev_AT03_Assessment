@@ -23,7 +23,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float patrolSpeed;
     [SerializeField] private float chaseSpeed;
     [SerializeField] private float huntingSpeed;
-    
+
+    //Hunting State
+    [SerializeField] LayerMask whatIsGround;
+    [SerializeField] float huntPointRange;
+
 
     public StateMachine StateMachine { get; private set; }
 
@@ -95,7 +99,7 @@ public class Enemy : MonoBehaviour
             instance.agent.speed = 0;
             timeSecondsIdle = Random.Range(3f, 10f);
             Debug.Log(timeSecondsIdle);
-            instance.StartCoroutine(OnIdle());
+            instance.StartCoroutine(StopIdle());
         }
 
         public override void OnUpdate()
@@ -113,7 +117,7 @@ public class Enemy : MonoBehaviour
             instance.StopAllCoroutines();
         }
 
-        IEnumerator OnIdle()
+        IEnumerator StopIdle()
         {
             while (timeSecondsIdle > 0)
             {
@@ -139,7 +143,11 @@ public class Enemy : MonoBehaviour
 
         public override void OnUpdate()
         {
-            
+            //If player is within detection range; Chase player
+            if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.detectionDistance)
+            {
+                instance.StateMachine.SetState(new ChaseState(instance));
+            }
         }
 
         public override void OnExit()
@@ -163,6 +171,10 @@ public class Enemy : MonoBehaviour
 
         public override void OnUpdate()
         {
+            if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.attackDistance)
+            {
+                instance.StateMachine.SetState(new AttackState(instance));
+            }
             if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.detectionDistance)
             {
                 instance.agent.SetDestination(instance.playerTarget.transform.position);
@@ -185,29 +197,77 @@ public class Enemy : MonoBehaviour
         {
         }
 
+        //Timer
         float timeSecondsHunt;
+
+        //Hunting
+        Vector3 huntPoint;
+        bool huntPointSet;
+
 
         public override void OnEnter()
         {
             Debug.Log("Hunting");
             //play walk hunting animation (similar to walk)
             instance.agent.speed = instance.huntingSpeed;
-            timeSecondsHunt = Random.Range(5f, 10f);
+            timeSecondsHunt = Random.Range(8f, 10f);
             Debug.Log(timeSecondsHunt);
-            instance.StartCoroutine(OnHunt());
+            instance.StartCoroutine(StopHunt());
         }
 
         public override void OnUpdate()
         {
-    
+            //If player is within detection range; Chase player
+            if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.detectionDistance)
+            {
+                instance.StateMachine.SetState(new ChaseState(instance));
+            }
+            else
+            {
+                Hunting();
+            }
         }
 
         public override void OnExit()
         {
- 
+            instance.StopAllCoroutines();
         }
 
-        IEnumerator OnHunt()
+        private void Hunting()
+        {
+            if (!huntPointSet)
+            {
+                SearchHuntPoint();
+            }
+            if (huntPointSet)
+            {
+                instance.agent.SetDestination(huntPoint);
+            }
+
+            Vector3 distanceToHuntPoint = instance.transform.position - huntPoint;
+
+            //huntpoint reached
+            if (distanceToHuntPoint.magnitude < 1f)
+            {
+                huntPointSet = false;
+            }
+        }
+
+        private void SearchHuntPoint()
+        {
+            //Calculate random point in range
+            float randomZ = Random.Range(-instance.huntPointRange, instance.huntPointRange);
+            float randomX = Random.Range(-instance.huntPointRange, instance.huntPointRange);
+
+            huntPoint = new Vector3(instance.transform.position.x + randomX, instance.transform.position.y, instance.transform.position.z + randomZ);
+
+            if (Physics.Raycast(huntPoint, -instance.transform.up, 2f, instance.whatIsGround))
+            {
+                huntPointSet = true;
+            }
+        }
+
+        IEnumerator StopHunt()
         {
             while (timeSecondsHunt > 0)
             {
@@ -277,5 +337,9 @@ public class Enemy : MonoBehaviour
         //Attack Range
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, attackDistance);
+
+        //Hunting Range
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, huntPointRange);
     }
 }

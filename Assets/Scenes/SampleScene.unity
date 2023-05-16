@@ -622,7 +622,7 @@ GameObject:
   - component: {fileID: 904495201}
   - component: {fileID: 904495200}
   - component: {fileID: 904495199}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1139,6 +1139,11 @@ MonoBehaviour:
   attackDistance: 3
   patrolSpeed: 3
   chaseSpeed: 5
+  huntingSpeed: 2
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
+  huntPointRange: 10
 --- !u!95 &1770260096
 Animator:
   serializedVersion: 3
