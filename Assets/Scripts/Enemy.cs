@@ -102,7 +102,6 @@ public class Enemy : MonoBehaviour
             //play idle animation
             instance.agent.speed = 0;
             timeSecondsIdle = Random.Range(3f, 10f);
-            Debug.Log(timeSecondsIdle);
             instance.StartCoroutine(StopIdle());
         }
 
@@ -178,7 +177,7 @@ public class Enemy : MonoBehaviour
             areaList.Clear();
             areaList.Add(_currentArea);
 
-            while (_isAreaSet == false)
+            while (_isAreaSet == false && areaList.Count > -1)
             {
                 if (_currentArea.isSearched == false)
                 {
@@ -188,20 +187,32 @@ public class Enemy : MonoBehaviour
                 }
                 else if (_currentArea.isSearched == true)
                 {
-                    _isAreaSet = true;
                     foreach (Area areas in _currentArea.Neighbour)
                     {
                         areaList.Add(areas);
                     }
                     areaList.Remove(_currentArea);
-                    _currentArea = areaList[areaList.Count - 1];
-                    currArea = _currentArea;
-                    MoveToArea(currArea);
-                    break;
-                }
-                else
-                {
-                    break;
+                    if (areaList.Count - 1 > 0)
+                    {
+                        if(areaList[areaList.Count - 1].isSearched == true)
+                        {
+                            _isAreaSet = true;
+                            currArea = areaList[0];
+                            MoveToArea(currArea);
+                            break;
+                        }
+                        else
+                        {
+                            _isAreaSet = true;
+                            currArea = areaList[areaList.Count - 1];
+                            MoveToArea(currArea);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 
             }

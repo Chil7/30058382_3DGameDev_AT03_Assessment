@@ -9,7 +9,31 @@ public class Area : MonoBehaviour
 
     //Bool for if area is searched
     public bool isSearched = false;
+    public bool timerActive = false;
+
+    //Timer for isSearched Reset
+    private float searchResetTimer = 15f;
 
     //Returns the Neighbours of the area
     public Area[] Neighbour { get { return neighbour; } }
+
+    private void Update()
+    {
+        if (isSearched == true && timerActive == false)
+        {
+            StartCoroutine(SearchedReset());
+        }
+    }
+
+    IEnumerator SearchedReset()
+    {
+        timerActive = true;
+        while (searchResetTimer > 0 && timerActive == true)
+        {
+            yield return new WaitForSeconds(1f);
+            searchResetTimer--;
+        }
+        isSearched = false;
+        timerActive = false;
+    }
 }

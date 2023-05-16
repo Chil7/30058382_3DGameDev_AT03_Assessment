@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Area[] areas;
     [SerializeField] private Player player;
 
+    //Timer for Node Reset
+
     public Area[] Areas { get { return areas; } }
 
     public static GameManager Instance { get; private set; }
