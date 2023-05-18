@@ -30,6 +30,9 @@ public class Player : MonoBehaviour
     private float rotY = 0.0f; // rotation around the up/y axis
     private float rotX = 0.0f; // rotation around the right/x axis
 
+    //Inventory
+    public bool finalKey = false;
+
     private void Awake()
     {
         if(!TryGetComponent<Rigidbody>(out rb))
@@ -69,26 +72,26 @@ public class Player : MonoBehaviour
         forwardInput = Input.GetAxisRaw("Vertical");
 
         ////Forward and backward Inputs
-        //if (Input.GetKey("w"))
-        //{
-        //    transform.position += transform.forward * moveSpeed * Time.deltaTime;
-        //}
+        if (Input.GetKey("w"))
+        {
+            transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        }
 
-        //else if (Input.GetKey("s"))
-        //{
-        //    transform.position += -transform.forward * moveSpeed * Time.deltaTime;
-        //}
+        else if (Input.GetKey("s"))
+        {
+            transform.position += -transform.forward * moveSpeed * Time.deltaTime;
+        }
 
-        ////Left and Right Inputs
-        //if (Input.GetKey("a"))
-        //{
-        //    transform.position += -transform.right * moveSpeed * Time.deltaTime;
-        //}
+        //Left and Right Inputs
+        if (Input.GetKey("a"))
+        {
+            transform.position += -transform.right * moveSpeed * Time.deltaTime;
+        }
 
-        //else if (Input.GetKey("d"))
-        //{
-        //    transform.position += transform.right * moveSpeed * Time.deltaTime;
-        //}
+        else if (Input.GetKey("d"))
+        {
+            transform.position += transform.right * moveSpeed * Time.deltaTime;
+        }
 
 
 
@@ -102,7 +105,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        //----------------------------------MOUSELOOK---------------
+        //Mouse look
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = -Input.GetAxis("Mouse Y");
 
@@ -113,6 +116,12 @@ public class Player : MonoBehaviour
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
         transform.rotation = localRotation;
+
+        //Interact
+        if (Input.GetMouseButtonDown(0))
+        {
+            InteractWorldObject();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -120,6 +129,16 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             isJump = true;
+        }
+    }
+
+    public void InteractWorldObject()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+        {
+            Debug.Log("Shoot");
         }
     }
 }
