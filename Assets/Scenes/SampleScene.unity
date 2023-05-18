@@ -154,7 +154,7 @@ Transform:
   - {fileID: 1598599219}
   - {fileID: 1933385775}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &166360510
 PrefabInstance:
@@ -316,7 +316,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 10
   m_CollisionDetection: 0
 --- !u!136 &587467521
 CapsuleCollider:
@@ -391,9 +391,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 963194228}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &587467525
 MonoBehaviour:
@@ -407,6 +408,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d5c497d0f4c6414c8780c81a4176ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 4
+  jumpForce: 1
+  mouseSensitivity: 200
+  clampAngle: 80
 --- !u!1001 &633174977
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -581,7 +586,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &790089300
 PrefabInstance:
@@ -721,7 +726,7 @@ GameObject:
   - component: {fileID: 904495199}
   m_Layer: 6
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -801,7 +806,7 @@ Transform:
   m_LocalScale: {x: 10, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -880,10 +885,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 587467524}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &978157001 stripped
@@ -1089,7 +1094,7 @@ Transform:
   - {fileID: 633174978}
   - {fileID: 791783609}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1278521750 stripped
 GameObject:
@@ -1197,9 +1202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c61d62d6d474f44196c4482a3229170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neighbour:
-  - {fileID: 1933385776}
-  - {fileID: 2111271529}
+  neighbour: {fileID: 1933385776}
   isSearched: 0
   timerActive: 0
 --- !u!1 &1770260088
@@ -1296,11 +1299,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1770260088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.53, z: 7.97}
+  m_LocalPosition: {x: 19.2, y: 2.53, z: 7.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &1770260093
 NavMeshAgent:
@@ -1338,7 +1341,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 10
   m_CollisionDetection: 0
 --- !u!114 &1770260095
 MonoBehaviour:
@@ -1355,14 +1358,16 @@ MonoBehaviour:
   playerTarget: {fileID: 587467519}
   detectionDistance: 5
   stoppingDistance: 1.5
-  attackDistance: 3
+  attackDistance: 0
   patrolSpeed: 5
   chaseSpeed: 7
   huntingSpeed: 4
+  currArea: {fileID: 2111271529}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   huntPointRange: 4
+  isStun: 0
 --- !u!95 &1770260096
 Animator:
   serializedVersion: 3
@@ -1487,9 +1492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c61d62d6d474f44196c4482a3229170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neighbour:
-  - {fileID: 2111271529}
-  - {fileID: 1598599220}
+  neighbour: {fileID: 2111271529}
   isSearched: 0
   timerActive: 0
 --- !u!1 &1986047402
@@ -1538,7 +1541,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1993747879
 PrefabInstance:
@@ -1645,9 +1648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c61d62d6d474f44196c4482a3229170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neighbour:
-  - {fileID: 1598599220}
-  - {fileID: 1933385776}
+  neighbour: {fileID: 1598599220}
   isSearched: 0
   timerActive: 0
 --- !u!1001 &457689671351710113

@@ -27,10 +27,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float patrolSpeed;
     [SerializeField] private float chaseSpeed;
     [SerializeField] private float huntingSpeed;
-    
+
+    //Patrol
+    [SerializeField] Area currArea;
+
     //Hunting State
     [SerializeField] LayerMask whatIsGround;
     [SerializeField] float huntPointRange;
+
+    //Stun
+    public bool isStun = false;
 
 
     public StateMachine StateMachine { get; private set; }
@@ -47,6 +53,11 @@ public class Enemy : MonoBehaviour
         if (!GetComponentInChildren<Animator>())
         {
             Debug.LogError("This object needs an animator attached to it");
+        }
+
+        if(currArea == null)
+        {
+            Debug.LogError("This needs an object with an Area Script reference to it");
         }
 
     }
@@ -112,6 +123,7 @@ public class Enemy : MonoBehaviour
             {
                 instance.StateMachine.SetState(new ChaseState(instance));
             }
+
         }
 
         public override void OnExit()
@@ -137,9 +149,6 @@ public class Enemy : MonoBehaviour
         {
         }
 
-        private List<Area> areaList = new List<Area>();
-        Area currArea = GameManager.Instance.Areas[0];
-
         public override void OnEnter()
         {
             Debug.Log("On Patrol");
@@ -147,7 +156,7 @@ public class Enemy : MonoBehaviour
             //play walk cycle animation
             instance.agent.speed = instance.patrolSpeed;
 
-            SearchForNewArea();
+            SearchNewAreaToPatrol();
         }
 
         public override void OnUpdate()
@@ -157,10 +166,19 @@ public class Enemy : MonoBehaviour
             {
                 instance.StateMachine.SetState(new ChaseState(instance));
             }
-            else if (Vector3.Distance(instance.transform.position, currArea.transform.position) < instance.stoppingDistance)
+            else if (Vector3.Distance(instance.transform.position, instance.currArea.transform.position) < instance.stoppingDistance)
             {
-                currArea.isSearched = true;
-                instance.StateMachine.SetState(new IdleState(instance));
+                int randomNum = Random.Range(1, 10);
+                instance.currArea.isSearched = true;
+                instance.currArea = instance.currArea.Neighbour;
+                if (randomNum > 3)
+                {
+                    instance.StateMachine.SetState(new IdleState(instance));
+                }
+                else
+                {
+                    instance.StateMachine.SetState(new HuntingState(instance));
+                }
             }
         }
 
@@ -169,52 +187,81 @@ public class Enemy : MonoBehaviour
             
         }
 
-        private void SearchForNewArea()
+        
+        //private void SearchForNewArea()
+        //{
+        //    bool _isAreaSet = false;
+        //    Area _currentArea = currArea;
+
+        //    areaList.Clear();
+        //    areaList.Add(_currentArea);
+
+        //    while (_isAreaSet == false && areaList.Count > -1)
+        //    {
+        //        if (_currentArea.isSearched == false)
+        //        {
+        //            _isAreaSet = true;
+        //            MoveToArea(_currentArea);
+        //            break;
+        //        }
+        //        else if (_currentArea.isSearched == true)
+        //        {
+        //            foreach (Area areas in _currentArea.Neighbour)
+        //            {
+        //                areaList.Add(areas);
+        //            }
+        //            areaList.Remove(_currentArea);
+        //            if (areaList.Count - 1 > 0)
+        //            {
+        //                if(areaList[areaList.Count - 1].isSearched == true)
+        //                {
+        //                    _isAreaSet = true;
+        //                    currArea = areaList[0];
+        //                    MoveToArea(currArea);
+        //                    break;
+        //                }
+        //                else
+        //                {
+        //                    _isAreaSet = true;
+        //                    currArea = areaList[areaList.Count - 1];
+        //                    MoveToArea(currArea);
+        //                    break;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                break;
+        //            }
+        //        }
+                
+        //    }
+        //} 
+
+        private void SearchNewAreaToPatrol()
         {
             bool _isAreaSet = false;
-            Area _currentArea = currArea;
-
-            areaList.Clear();
-            areaList.Add(_currentArea);
-
-            while (_isAreaSet == false && areaList.Count > -1)
+            if (instance.currArea == null)
             {
-                if (_currentArea.isSearched == false)
+                Debug.Log("new area: " + instance.currArea);
+                instance.currArea = GameManager.Instance.Areas[0];
+            }
+
+            while (_isAreaSet == false)
+            {
+                if (instance.currArea.isSearched == false)
                 {
                     _isAreaSet = true;
-                    MoveToArea(_currentArea);
+                    MoveToArea(instance.currArea);
                     break;
                 }
-                else if (_currentArea.isSearched == true)
+                else
                 {
-                    foreach (Area areas in _currentArea.Neighbour)
-                    {
-                        areaList.Add(areas);
-                    }
-                    areaList.Remove(_currentArea);
-                    if (areaList.Count - 1 > 0)
-                    {
-                        if(areaList[areaList.Count - 1].isSearched == true)
-                        {
-                            _isAreaSet = true;
-                            currArea = areaList[0];
-                            MoveToArea(currArea);
-                            break;
-                        }
-                        else
-                        {
-                            _isAreaSet = true;
-                            currArea = areaList[areaList.Count - 1];
-                            MoveToArea(currArea);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    _isAreaSet = true;
+                    instance.currArea = instance.currArea.Neighbour;
+                    Debug.Log("new area is " + instance.currArea);
+                    MoveToArea(instance.currArea);
+                    break;
                 }
-                
             }
         }
 
@@ -244,6 +291,10 @@ public class Enemy : MonoBehaviour
 
         public override void OnUpdate()
         {
+            if (instance.isStun == true)
+            {
+                instance.StateMachine.SetState(new StunState(instance));
+            }
             if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.attackDistance)
             {
                 instance.StateMachine.SetState(new AttackState(instance));
@@ -358,13 +409,14 @@ public class Enemy : MonoBehaviour
         {
         }
 
-        float timeSecondsStun;
+        float timeSecondsStun = 3.5f;
 
         public override void OnEnter()
         {
             Debug.Log("On Stun");
             //play stunned animation
             instance.agent.speed = 0;
+            instance.StartCoroutine(StopStun());
         }
 
         public override void OnUpdate()
@@ -375,6 +427,17 @@ public class Enemy : MonoBehaviour
         public override void OnExit()
         {
 
+        }
+
+        IEnumerator StopStun()
+        {
+            while (timeSecondsStun > 0)
+            {
+                yield return new WaitForSeconds(1f);
+                timeSecondsStun--;
+            }
+            instance.isStun = false;
+            instance.StateMachine.SetState(new HuntingState(instance));
         }
     }
 
