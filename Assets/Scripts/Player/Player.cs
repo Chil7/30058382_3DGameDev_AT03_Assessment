@@ -20,9 +20,9 @@ public class Player : MonoBehaviour
     private CharacterController controller;
     private float velocity = 0;
 
-    [Range(0.1f, 100f)]
+    [Range(0.1f, 10f)]
     [SerializeField] private float jumpForce;
-    [Range(1, 10)]
+    [Range(0.1f, 10f)]
     [SerializeField] private float gravity;
 
     //Inventory
@@ -36,11 +36,6 @@ public class Player : MonoBehaviour
         if (!TryGetComponent<CharacterController>(out controller))
         {
             Debug.LogError("This object needs a Character Controller");
-        }
-
-        if(!TryGetComponent<Rigidbody>(out rb))
-        {
-            Debug.LogError("This GameObject needs a Rigidbody");
         }
 
         Cursor.visible = true;
@@ -91,22 +86,6 @@ public class Player : MonoBehaviour
             velocity -= gravity * Time.deltaTime;
         }
 
-        //Interact
-        if (Input.GetMouseButtonDown(0))
-        {
-            InteractWorldObject();
-        }
-    }
-
-    public void InteractWorldObject()
-    {
-        RaycastHit hit;
-       
-
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
-        {
-            
-        }
     }
 
     void ApplyMovement()

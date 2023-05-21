@@ -44,5 +44,27 @@ public class MouseLook : MonoBehaviour
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
         transform.rotation = localRotation;
         character.rotation = localRotation;
+
+        //Interact
+        if (Input.GetMouseButtonDown(0))
+        {
+            InteractWorldObject();
+        }
+
+
+
+    }
+    public void InteractWorldObject()
+    {
+        RaycastHit hit;
+        Interactables _tempItem;
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+        {
+            if (hit.collider.TryGetComponent<Interactables>(out _tempItem))
+            {
+                Debug.Log(_tempItem);
+            }
+        }
     }
 }
