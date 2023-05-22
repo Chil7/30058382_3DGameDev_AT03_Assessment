@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
+    private GameObject player;
+
     //Mouse Look
     [HideInInspector]
     public float mouseSensitivity = 300.0f;
@@ -46,25 +48,55 @@ public class MouseLook : MonoBehaviour
         character.rotation = localRotation;
 
         //Interact
-        if (Input.GetMouseButtonDown(0))
-        {
+        if (Input.GetKeyDown(KeyCode.E))
+        { 
             InteractWorldObject();
         }
 
-
-
+        //Shoot Taser
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
     }
+
     public void InteractWorldObject()
     {
         RaycastHit hit;
-        Interactables _tempItem;
-
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+        
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 10))
         {
-            if (hit.collider.TryGetComponent<Interactables>(out _tempItem))
+            if (hit.collider.gameObject.TryGetComponent<IInteraction>(out IInteraction inter))
             {
-                Debug.Log(_tempItem);
+                Debug.Log(hit);
+                inter.Activate();
             }
         }
     }
+
+    public void Shoot()
+    {
+        player = GameObject.FindWithTag("Player");
+        RaycastHit hit;
+        Debug.Log("Player has shoot");
+
+        if (player.GetComponent<Inventory>().taserShots > 0)
+        {
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 10))
+            {
+                if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy _enemy))
+                {
+                    _enemy = FindObjectOfType<Enemy>();
+                    player.GetComponent<Inventory>().taserShots--;
+                    _enemy.StateMachine.SetState(new Enemy.StunState(_enemy));
+                    Debug.Log(player.GetComponent<Inventory>().taserShots + " shots left");
+                }
+            }
+        }
+    }
+}
+
+public interface IInteraction
+{
+    public void Activate();
 }

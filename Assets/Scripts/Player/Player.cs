@@ -25,9 +25,6 @@ public class Player : MonoBehaviour
     [Range(0.1f, 10f)]
     [SerializeField] private float gravity;
 
-    //Inventory
-    public bool finalKey = false;
-
 
     public StateMachine StateMachine { get; private set; }
 

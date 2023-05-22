@@ -413,6 +413,7 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
+            instance.StopAllCoroutines();
             Debug.Log("On Stun");
             //play stunned animation
             instance.agent.speed = 0;
