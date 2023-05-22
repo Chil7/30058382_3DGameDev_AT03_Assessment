@@ -86,10 +86,9 @@ public class MouseLook : MonoBehaviour
             {
                 if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy _enemy))
                 {
-                    _enemy = FindObjectOfType<Enemy>();
                     player.GetComponent<Inventory>().taserShots--;
-                    _enemy.StateMachine.SetState(new Enemy.StunState(_enemy));
                     Debug.Log(player.GetComponent<Inventory>().taserShots + " shots left");
+                    _enemy.StateMachine.SetState(new Enemy.StunState(_enemy));
                 }
             }
         }

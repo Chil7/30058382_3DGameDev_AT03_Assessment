@@ -35,10 +35,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] LayerMask whatIsGround;
     [SerializeField] float huntPointRange;
 
-    //Stun
-    public bool isStun = false;
-
-
     public StateMachine StateMachine { get; private set; }
 
     private void Awake()
@@ -291,10 +287,6 @@ public class Enemy : MonoBehaviour
 
         public override void OnUpdate()
         {
-            if (instance.isStun == true)
-            {
-                instance.StateMachine.SetState(new StunState(instance));
-            }
             if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.attackDistance)
             {
                 instance.StateMachine.SetState(new AttackState(instance));
@@ -437,7 +429,6 @@ public class Enemy : MonoBehaviour
                 yield return new WaitForSeconds(1f);
                 timeSecondsStun--;
             }
-            instance.isStun = false;
             instance.StateMachine.SetState(new HuntingState(instance));
         }
     }
