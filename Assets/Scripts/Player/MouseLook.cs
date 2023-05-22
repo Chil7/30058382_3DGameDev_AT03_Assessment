@@ -15,6 +15,10 @@ public class MouseLook : MonoBehaviour
     private float rotY = 0.0f; // rotation around the up/y axis
     private float rotX = 0.0f; // rotation around the right/x axis
 
+    //Raycast Distance
+    private int interactDist = 3;
+    private int shootDist = 5;
+
     private Transform character;
 
     private void Awake()
@@ -45,7 +49,8 @@ public class MouseLook : MonoBehaviour
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
         transform.rotation = localRotation;
-        character.rotation = localRotation;
+        Quaternion characterRotation = Quaternion.Euler(0.0f, rotY, 0.0f);
+        character.rotation = characterRotation;
 
         //Interact
         if (Input.GetKeyDown(KeyCode.E))
@@ -64,7 +69,7 @@ public class MouseLook : MonoBehaviour
     {
         RaycastHit hit;
         
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 10))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, interactDist))
         {
             if (hit.collider.gameObject.TryGetComponent<IInteraction>(out IInteraction inter))
             {
@@ -79,18 +84,30 @@ public class MouseLook : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         RaycastHit hit;
 
-        if (player.GetComponent<Inventory>().taserShots > 0)
+        if (player.GetComponent<Inventory>().shotCount > 0)
         {
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 10))
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootDist))
             {
                 if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy _enemy))
                 {
-                    player.GetComponent<Inventory>().taserShots--;
-                    Debug.Log(player.GetComponent<Inventory>().taserShots + " shots left");
+                    player.GetComponent<Inventory>().shotCount--;
                     _enemy.StateMachine.SetState(new Enemy.StunState(_enemy));
                 }
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        //Interact Distance
+        Gizmos.color = Color.red;
+        Vector3 intDirection = transform.TransformDirection(Vector3.forward) * interactDist;
+        Gizmos.DrawRay(transform.position, intDirection);
+
+        //Shoot Distance
+        Gizmos.color = Color.red;
+        Vector3 shootDirection = transform.TransformDirection(Vector3.forward) * shootDist;
+        Gizmos.DrawRay(transform.position, shootDirection);
     }
 }
 

@@ -282,6 +282,7 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("On Chase");
             //play run cycle animation
+            instance.detectionDistance = 10;
             instance.agent.speed = instance.chaseSpeed;
         }
 
@@ -303,7 +304,7 @@ public class Enemy : MonoBehaviour
 
         public override void OnExit()
         {
-
+            instance.detectionDistance = 7;
         }
     }
 

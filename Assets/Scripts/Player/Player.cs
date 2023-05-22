@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     //Movement
     [Range(1, 20)]
-    [SerializeField] private float sprintSpeed = 4.5f;
+    [SerializeField] private float sprintSpeed = 6f;
     [Range(1, 20)]
     [SerializeField] private float walkSpeed = 2.0f;
     private float currentSpeed;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public List<ItemType> collectedItems = new List<ItemType>();
-    public int taserShots = 0;
+    public int shotCount = 0;
 
     public bool PickUp(ItemType type)
     {
@@ -31,9 +31,9 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public void LoadTaser(int _amount)
+    public void LoadGun(int _amount)
     {
-        taserShots += _amount;
-        Debug.Log(taserShots);
+        shotCount += _amount;
+        Debug.Log(shotCount);
     }
 }
