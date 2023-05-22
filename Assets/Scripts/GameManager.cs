@@ -12,6 +12,11 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
+    private void Awake()
+    {
+        Cursor.visible = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

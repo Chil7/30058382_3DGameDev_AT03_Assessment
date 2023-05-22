@@ -327,7 +327,6 @@ public class Enemy : MonoBehaviour
             //play walk hunting animation (similar to walk)
             instance.agent.speed = instance.huntingSpeed;
             timeSecondsHunt = Random.Range(8f, 10f);
-            Debug.Log(timeSecondsHunt);
             instance.StartCoroutine(StopHunt());
         }
 
@@ -444,6 +443,7 @@ public class Enemy : MonoBehaviour
             Debug.Log("On Attack");
             //play punch animation
             instance.agent.speed = 0;
+            instance.playerCaught = true;
         }
 
         public override void OnUpdate()

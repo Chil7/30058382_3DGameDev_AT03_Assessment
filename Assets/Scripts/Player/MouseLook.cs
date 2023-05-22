@@ -78,7 +78,6 @@ public class MouseLook : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         RaycastHit hit;
-        Debug.Log("Player has shoot");
 
         if (player.GetComponent<Inventory>().taserShots > 0)
         {
