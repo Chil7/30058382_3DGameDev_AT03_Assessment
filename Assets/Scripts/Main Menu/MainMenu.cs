@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("DungeonScene");
     }
 
     public void QuitToDesktop()
