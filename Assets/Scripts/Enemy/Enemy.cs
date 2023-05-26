@@ -236,10 +236,14 @@ public class Enemy : MonoBehaviour
         private void SearchNewAreaToPatrol()
         {
             bool _isAreaSet = false;
+
             if (instance.currArea == null)
             {
-                Debug.Log("new area: " + instance.currArea);
                 instance.currArea = GameManager.Instance.Areas[0];
+            }
+            else
+            {
+                Debug.LogError("No areas assigned");
             }
 
             while (_isAreaSet == false)
