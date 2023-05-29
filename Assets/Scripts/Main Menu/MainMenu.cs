@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     private void Awake()
     {
-        Cursor.visible = true;
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
     }
 

@@ -23,6 +23,8 @@ public class MouseLook : MonoBehaviour
 
     private void Awake()
     {
+        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         character = transform.root;
     }
 

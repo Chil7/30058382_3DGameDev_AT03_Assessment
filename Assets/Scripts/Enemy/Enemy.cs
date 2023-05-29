@@ -453,14 +453,16 @@ public class Enemy : MonoBehaviour
 
         public override void OnUpdate()
         {
-
+            
         }
 
         public override void OnExit()
         {
 
         }
+        
     }
+    
 
     private void OnDrawGizmos()
     {
@@ -476,4 +478,6 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, huntPointRange);
     }
+
+    
 }
