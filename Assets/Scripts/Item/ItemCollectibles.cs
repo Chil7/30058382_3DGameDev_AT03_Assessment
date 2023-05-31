@@ -21,4 +21,4 @@ public class ItemCollectibles : MonoBehaviour
     }
 } 
 
-public enum ItemType { exitKey, crowbar }
+public enum ItemType { exitKey, throneKey, cellKey, jailKey }

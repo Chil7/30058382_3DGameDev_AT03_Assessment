@@ -18,6 +18,8 @@ public class Door : MonoBehaviour, IInteraction
         {
             Debug.Log("Unlock");
             locked = false;
+            //remove this later and replace for an animation instead. this is just a test
+            gameObject.SetActive(false);
         }
         else
         {
