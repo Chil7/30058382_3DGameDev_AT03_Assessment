@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float huntingSpeed;
 
     //Patrol
-    [SerializeField] Area currArea;
+    public Area currArea;
 
     //Hunting State
     [SerializeField] LayerMask whatIsGround;
