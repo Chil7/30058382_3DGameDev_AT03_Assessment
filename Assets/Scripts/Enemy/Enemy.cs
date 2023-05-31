@@ -241,10 +241,6 @@ public class Enemy : MonoBehaviour
             {
                 instance.currArea = GameManager.Instance.Areas[0];
             }
-            else
-            {
-                Debug.LogError("No areas assigned");
-            }
 
             while (_isAreaSet == false)
             {

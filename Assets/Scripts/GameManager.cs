@@ -33,5 +33,8 @@ public class GameManager : MonoBehaviour
         player.enabled = false;
     }
 
-    
+    private void Victory()
+    {
+        player.enabled = false;
+    }
 }
