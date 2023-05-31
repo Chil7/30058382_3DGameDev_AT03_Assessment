@@ -6,6 +6,7 @@ public class Inventory : MonoBehaviour
 {
     public List<ItemType> collectedItems = new List<ItemType>();
     public int shotCount = 0;
+    public int planks = 0;
 
     public bool PickUp(ItemType type)
     {
