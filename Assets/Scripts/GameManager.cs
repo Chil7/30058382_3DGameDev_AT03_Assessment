@@ -24,7 +24,9 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
         FindObjectOfType<Enemy>().GameOverEvent += GameOver;
+        FindObjectOfType<GameEnd>().GameWinEvent += Victory;
     }
 
     //Disables the player and pops out the option if player wants to restart or go to main menu

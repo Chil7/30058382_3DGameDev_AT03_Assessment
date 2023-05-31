@@ -7,14 +7,16 @@ public class Door : MonoBehaviour, IInteraction
     private GameObject player;
 
     public bool locked = true;
-    public ItemType item;
+    public ItemType item1;
+    public ItemType item2;
 
 
     public void Activate()
     {
         player = GameObject.FindWithTag("Player");
+        Inventory playerInventory = player.GetComponent<Inventory>();
         
-        if (player.GetComponent<Inventory>().CheckItems(item) == true)
+        if (playerInventory.CheckItems(item1) == true && playerInventory.CheckItems(item2) == true)
         {
             Debug.Log("Unlock");
             locked = false;
