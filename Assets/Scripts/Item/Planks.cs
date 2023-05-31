@@ -13,10 +13,10 @@ public class Planks : MonoBehaviour
 
         if (other.tag == "Player")
         {
-            if (playerInventory.planks <= 0)
+            if (playerInventory.plankObtained == false)
             {
                 //Add 1 plank to player's inventory
-                playerInventory.planks += 1;
+                playerInventory.plankObtained = true;
                 gameObject.SetActive(false);
             }
             else

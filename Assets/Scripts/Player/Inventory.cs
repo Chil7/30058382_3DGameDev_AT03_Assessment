@@ -5,7 +5,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public List<ItemType> collectedItems = new List<ItemType>();
-    public int planks = 0;
+    public bool plankObtained = false;
     public bool swordObtained = false;
 
     public bool PickUp(ItemType type)
@@ -30,11 +30,5 @@ public class Inventory : MonoBehaviour
         }
 
         return false;
-    }
-
-    public void LoadGun(int _amount)
-    {
-        shotCount += _amount;
-        Debug.Log(shotCount);
     }
 }

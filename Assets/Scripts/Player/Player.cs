@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private Animator animator;
 
+    //SwordEquipped
+    [SerializeField] private GameObject swordEquipped;
+
     //Movement
     [Range(1, 20)]
     [SerializeField] private float sprintSpeed = 6f;
@@ -24,6 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpForce;
     [Range(0.1f, 10f)]
     [SerializeField] private float gravity;
+
 
 
     public StateMachine StateMachine { get; private set; }
@@ -48,6 +52,17 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Inventory playerInventory = this.GetComponent<Inventory>();
+
+        //SwordEquipped
+        if (playerInventory.swordObtained == true)
+        {
+            swordEquipped.SetActive(true);
+        }
+        else
+        {
+            swordEquipped.SetActive(false);
+        }
 
         //Movement
         motion = Vector3.zero;

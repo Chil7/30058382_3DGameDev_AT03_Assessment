@@ -13,9 +13,9 @@ public class MissingPlanks : MonoBehaviour, IInteraction
         player = GameObject.FindWithTag("Player");
         Inventory playerInventory = player.GetComponent<Inventory>();
 
-        if (playerInventory.planks > 0)
+        if (playerInventory.plankObtained == true)
         {
-            playerInventory.planks--;
+            playerInventory.plankObtained = false;
             Instantiate(plank, transform.position, transform.rotation);
             this.gameObject.SetActive(false);
         }
