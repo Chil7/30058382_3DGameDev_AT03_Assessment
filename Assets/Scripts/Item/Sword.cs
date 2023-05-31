@@ -22,4 +22,12 @@ public class Sword : MonoBehaviour, IInteraction
             //Tell player can only equip 1 sword at a time
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+       if (other.tag == "Player")
+        {
+            Activate();
+        }
+    }
 }

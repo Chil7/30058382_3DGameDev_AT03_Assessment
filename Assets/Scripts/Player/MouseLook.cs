@@ -17,7 +17,7 @@ public class MouseLook : MonoBehaviour
 
     //Raycast Distance
     private int interactDist = 3;
-    private int shootDist = 5;
+    private int attackDist = 5;
 
     private Transform character;
 
@@ -63,7 +63,7 @@ public class MouseLook : MonoBehaviour
         //Shoot Taser
         if (Input.GetMouseButtonDown(0))
         {
-            Shoot();
+            Attack();
         }
     }
 
@@ -81,18 +81,19 @@ public class MouseLook : MonoBehaviour
         }
     }
 
-    public void Shoot()
+    public void Attack()
     {
         player = GameObject.FindWithTag("Player");
+        Inventory playerInventory = player.GetComponent<Inventory>();
         RaycastHit hit;
 
-        if (player.GetComponent<Inventory>().shotCount > 0)
+        if (playerInventory.swordObtained == true)
         {
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootDist))
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, attackDist))
             {
                 if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy _enemy))
                 {
-                    player.GetComponent<Inventory>().shotCount--;
+                    playerInventory.swordObtained = false;
                     _enemy.StateMachine.SetState(new Enemy.StunState(_enemy));
                 }
             }
@@ -108,7 +109,7 @@ public class MouseLook : MonoBehaviour
 
         //Shoot Distance
         Gizmos.color = Color.red;
-        Vector3 shootDirection = transform.TransformDirection(Vector3.forward) * shootDist;
+        Vector3 shootDirection = transform.TransformDirection(Vector3.forward) * attackDist;
         Gizmos.DrawRay(transform.position, shootDirection);
     }
 }
