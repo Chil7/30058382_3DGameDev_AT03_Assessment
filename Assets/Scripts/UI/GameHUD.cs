@@ -6,10 +6,15 @@ using UnityEngine.UI;
 public class GameHUD : MonoBehaviour
 {
     [SerializeField] private GameObject mainCamera;
+
     //crosshairs
+    [SerializeField] private GameObject[] crosshairs;
+
     [SerializeField] private GameObject default_crosshair;
     [SerializeField] private GameObject attack_crosshair;
     [SerializeField] private GameObject key_crosshair;
+    [SerializeField] private GameObject pickup_crosshair;
+    [SerializeField] private GameObject plank_crosshair;
 
     private void Update()
     {
@@ -18,40 +23,46 @@ public class GameHUD : MonoBehaviour
 
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.TransformDirection(Vector3.forward), out hit, 5))
         {
-            if (hit.collider.gameObject.TryGetComponent<IInteraction>(out IInteraction inter))
+
+
+            if (hit.collider.gameObject.TryGetComponent<IInteraction>(out IInteraction inter1) && hit.collider.gameObject.TryGetComponent<Door>(out Door door))
             {
-                KeyCrosshair();
+                UpdateCrosshair(key_crosshair);
+            }
+
+            if (hit.collider.gameObject.TryGetComponent<IInteraction>(out IInteraction inter2) && hit.collider.gameObject.TryGetComponent<MissingPlanks>(out MissingPlanks missingPlanks))
+            {
+                UpdateCrosshair(plank_crosshair);
+            }
+
+            if (hit.collider.gameObject.TryGetComponent<IInteraction>(out IInteraction inter3) && hit.collider.gameObject.TryGetComponent<Sword>(out Sword sword))
+            {
+                UpdateCrosshair(pickup_crosshair);
             }
 
             if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy _enemy))
             {
-                AttackCrosshair();
+                UpdateCrosshair(attack_crosshair);
             }
         }
         else
         {
-            DefaultCrosshair();
+            UpdateCrosshair(default_crosshair);
         }
     }
 
-    public void KeyCrosshair()
+    public void UpdateCrosshair(GameObject _crosshair)
     {
-        key_crosshair.SetActive(true);
-        attack_crosshair.SetActive(false);
-        default_crosshair.SetActive(false);
-    }
-
-    public void AttackCrosshair()
-    {
-        key_crosshair.SetActive(false);
-        attack_crosshair.SetActive(true);
-        default_crosshair.SetActive(false);
-    }
-
-    public void DefaultCrosshair()
-    {
-        key_crosshair.SetActive(false);
-        attack_crosshair.SetActive(false);
-        default_crosshair.SetActive(true);
+        foreach (GameObject crosshair in crosshairs)
+        {
+            if (crosshair != _crosshair)
+            {
+                crosshair.SetActive(false);
+            }
+            else
+            {
+                crosshair.SetActive(true);
+            }
+        }
     }
 }

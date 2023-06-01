@@ -8,7 +8,7 @@ public class MouseLook : MonoBehaviour
 
     //Mouse Look
     [HideInInspector]
-    public float mouseSensitivity = 300.0f;
+    public float mouseSensitivity = 0.5f;
     [HideInInspector]
     public float clampAngle = 80.0f;
 
