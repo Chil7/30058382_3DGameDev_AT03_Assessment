@@ -15,7 +15,7 @@ public class Planks : MonoBehaviour
         {
             if (playerInventory.plankObtained == false)
             {
-                //Add 1 plank to player's inventory
+                FindObjectOfType<AudioManager>().Play("PickUpPlank");
                 playerInventory.plankObtained = true;
                 gameObject.SetActive(false);
             }

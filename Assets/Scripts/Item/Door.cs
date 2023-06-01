@@ -1,15 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class Door : MonoBehaviour, IInteraction
 {
     private GameObject player;
+    private Animator animator;
+    [SerializeField] private string doorSound;
 
     public bool locked = true;
     public ItemType item1;
     public ItemType item2;
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     public void Activate()
     {
@@ -18,10 +25,10 @@ public class Door : MonoBehaviour, IInteraction
         
         if (playerInventory.CheckItems(item1) == true && playerInventory.CheckItems(item2) == true)
         {
-            Debug.Log("Unlock");
+            
             locked = false;
-            //remove this later and replace for an animation instead. this is just a test
-            gameObject.SetActive(false);
+            FindObjectOfType<AudioManager>().Play(doorSound);
+            animator.SetTrigger("Unlock");
         }
         else
         {

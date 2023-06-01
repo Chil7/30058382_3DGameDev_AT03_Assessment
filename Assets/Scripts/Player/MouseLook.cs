@@ -93,6 +93,7 @@ public class MouseLook : MonoBehaviour
             {
                 if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy _enemy))
                 {
+                    FindObjectOfType<AudioManager>().Play("SwordSlash");
                     playerInventory.swordObtained = false;
                     _enemy.StateMachine.SetState(new Enemy.StunState(_enemy));
                 }

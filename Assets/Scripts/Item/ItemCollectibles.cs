@@ -11,7 +11,7 @@ public class ItemCollectibles : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log("Player has picked up" + items);
+            FindObjectOfType<AudioManager>().Play("PickUpKey");
 
             if (other.GetComponent<Inventory>().PickUp(items) == true)
             {

@@ -15,6 +15,7 @@ public class MissingPlanks : MonoBehaviour, IInteraction
 
         if (playerInventory.plankObtained == true)
         {
+            FindObjectOfType<AudioManager>().Play("PlacePlank");
             playerInventory.plankObtained = false;
             Instantiate(plank, transform.position, transform.rotation);
             this.gameObject.SetActive(false);
