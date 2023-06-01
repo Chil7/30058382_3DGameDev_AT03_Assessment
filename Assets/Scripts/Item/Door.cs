@@ -10,8 +10,8 @@ public class Door : MonoBehaviour, IInteraction
     [SerializeField] private string doorSound;
 
     public bool locked = true;
-    public ItemType item1;
-    public ItemType item2;
+    public ItemType item;
+
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class Door : MonoBehaviour, IInteraction
         player = GameObject.FindWithTag("Player");
         Inventory playerInventory = player.GetComponent<Inventory>();
         
-        if (playerInventory.CheckItems(item1) == true && playerInventory.CheckItems(item2) == true)
+        if (playerInventory.CheckItems(item) == true)
         {
             
             locked = false;

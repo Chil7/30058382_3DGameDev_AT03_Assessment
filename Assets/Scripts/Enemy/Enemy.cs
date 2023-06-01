@@ -296,10 +296,6 @@ public class Enemy : MonoBehaviour
             {
                 instance.agent.SetDestination(instance.playerTarget.transform.position);
             }
-            else
-            {
-                instance.StateMachine.SetState(new HuntingState(instance));
-            }
         }
 
         public override void OnExit()
