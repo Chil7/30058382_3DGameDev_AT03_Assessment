@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     private Rigidbody rb;
     private Animator animator;
-    private AudioSource audio;
+    private AudioSource audioSource;
 
     //SwordEquipped
     [SerializeField] private GameObject swordEquipped;
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("This object needs a Character Controller");
         }
-        if (!TryGetComponent<AudioSource>(out audio))
+        if (!TryGetComponent<AudioSource>(out audioSource))
         {
             Debug.LogError("This object needs an Audio Source");
         }
@@ -104,11 +104,11 @@ public class Player : MonoBehaviour
         }
 
         //Sound
-        if (controller.isGrounded == true && controller.velocity.magnitude > 2f && audio.isPlaying == false)
+        if (controller.isGrounded == true && controller.velocity.magnitude > 2f && audioSource.isPlaying == false)
         {
-            audio.volume = Random.Range(0.8f, 1f);
-            audio.pitch = Random.Range(0.8f, 1.1f);
-            audio.Play();
+            audioSource.volume = Random.Range(0.8f, 1f);
+            audioSource.pitch = Random.Range(0.8f, 1.1f);
+            audioSource.Play();
         }
 
     }

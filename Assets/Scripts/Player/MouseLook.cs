@@ -16,8 +16,8 @@ public class MouseLook : MonoBehaviour
     private float rotX = 0.0f; // rotation around the right/x axis
 
     //Raycast Distance
-    private int interactDist = 3;
-    private int attackDist = 5;
+    public int interactDist = 3;
+    public int attackDist = 2;
 
     private Transform character;
 
