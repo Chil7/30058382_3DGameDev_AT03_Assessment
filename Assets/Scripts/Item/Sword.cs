@@ -11,9 +11,9 @@ public class Sword : MonoBehaviour, IInteraction
         player = GameObject.FindWithTag("Player");
         Inventory playerInventory = player.GetComponent<Inventory>();
 
-        FindObjectOfType<AudioManager>().Play("SwordPickUp");
         if (playerInventory.swordObtained == false)
         {
+            FindObjectOfType<AudioManager>().Play("SwordPickUp");
             playerInventory.swordObtained = true;
             this.gameObject.SetActive(false);
         }

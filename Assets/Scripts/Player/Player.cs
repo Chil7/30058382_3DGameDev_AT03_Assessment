@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEngine.Audio;
 using Items;
 
 public class Player : MonoBehaviour
 {
     private Rigidbody rb;
     private Animator animator;
+    private AudioSource audio;
 
     //SwordEquipped
     [SerializeField] private GameObject swordEquipped;
@@ -37,6 +38,10 @@ public class Player : MonoBehaviour
         if (!TryGetComponent<CharacterController>(out controller))
         {
             Debug.LogError("This object needs a Character Controller");
+        }
+        if (!TryGetComponent<AudioSource>(out audio))
+        {
+            Debug.LogError("This object needs an Audio Source");
         }
 
         Cursor.visible = true;
@@ -98,6 +103,14 @@ public class Player : MonoBehaviour
             velocity -= gravity * Time.deltaTime;
         }
 
+        //Sound
+        if (controller.isGrounded == true && controller.velocity.magnitude > 2f && audio.isPlaying == false)
+        {
+            audio.volume = Random.Range(0.8f, 1f);
+            audio.pitch = Random.Range(0.8f, 1.1f);
+            audio.Play();
+        }
+
     }
 
     void ApplyMovement()
@@ -110,6 +123,5 @@ public class Player : MonoBehaviour
         {
             controller.Move(motion);
         }
-
     }
 }
