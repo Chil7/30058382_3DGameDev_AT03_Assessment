@@ -15,7 +15,7 @@ public class Sword : MonoBehaviour, IInteraction
         {
             FindObjectOfType<AudioManager>().Play("SwordPickUp");
             playerInventory.swordObtained = true;
-            this.gameObject.SetActive(false);
+            Destroy(gameObject);
         }
         
         else

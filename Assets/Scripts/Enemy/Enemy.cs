@@ -294,10 +294,11 @@ public class Enemy : MonoBehaviour
             {
                 instance.StateMachine.SetState(new AttackState(instance));
             }
-            if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.detectionDistance)
+            else
             {
                 instance.agent.SetDestination(instance.playerTarget.transform.position);
             }
+            
         }
 
         public override void OnExit()

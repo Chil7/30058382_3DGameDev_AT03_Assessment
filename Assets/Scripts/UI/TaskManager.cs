@@ -4,25 +4,29 @@ using UnityEngine;
 
 public class TaskManager : MonoBehaviour
 {
-    [SerializeField] private Task[] tasks;
     [SerializeField] private Task currTask;
     private Task previousTask;
 
-    public Task[] Tasks { get { return tasks; } }
+    public static TaskManager taskManager { get; private set; }
 
     private void Start()
     { 
+        if (taskManager == null)
+        {
+            taskManager = this;
+        }
+
         if (currTask.gameObject.activeSelf == false)
         {
             currTask.gameObject.SetActive(true);
         }
     }
 
-
     public void UpdateTask()
     {
         previousTask = currTask;
         currTask = currTask.NextTasks;
-        previousTask.isActive = false;
+        previousTask.gameObject.SetActive(false);
+        currTask.gameObject.SetActive(true);
     }
 }

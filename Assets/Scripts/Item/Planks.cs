@@ -17,7 +17,7 @@ public class Planks : MonoBehaviour
             {
                 FindObjectOfType<AudioManager>().Play("PickUpPlank");
                 playerInventory.plankObtained = true;
-                gameObject.SetActive(false);
+                Destroy(gameObject);
             }
             else
             {
