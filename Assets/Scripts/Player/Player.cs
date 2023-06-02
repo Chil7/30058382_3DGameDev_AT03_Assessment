@@ -14,10 +14,11 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject swordEquipped;
 
     //Movement
+    [SerializeField] private float stamina = 100f;
     [Range(1, 20)]
-    [SerializeField] private float sprintSpeed = 6f;
+    [SerializeField] private float sprintSpeed = 5f;
     [Range(1, 20)]
-    [SerializeField] private float walkSpeed = 2.0f;
+    [SerializeField] private float walkSpeed = 2.5f;
     private float currentSpeed;
 
     private Vector3 motion;
@@ -28,6 +29,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpForce;
     [Range(0.1f, 10f)]
     [SerializeField] private float gravity;
+
+    
 
 
 
@@ -81,16 +84,22 @@ public class Player : MonoBehaviour
             {
                 velocity = jumpForce;
             }
-            else if (Input.GetKeyDown(KeyCode.LeftShift) == true)
+            else if (Input.GetKeyDown(KeyCode.LeftShift) == true && stamina > 0f)
             {
                 //check to see speed is not equal to sprint speed
                 if (currentSpeed != sprintSpeed)
                 {
                     currentSpeed = sprintSpeed;
+
+                    while (currentSpeed == sprintSpeed)
+                    {
+                        stamina -= 0.1f;
+                    }
                 }
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift) == true)
             {
+                stamina += 0.1f;
                 //change to walk speed
                 if (currentSpeed != walkSpeed)
                 {
