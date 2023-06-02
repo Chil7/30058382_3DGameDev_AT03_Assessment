@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
 
     public Area[] Areas { get { return areas; } }
-
+    
     public static GameManager Instance { get; private set; }
 
     private void Awake()

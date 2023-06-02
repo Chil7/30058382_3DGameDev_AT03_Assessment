@@ -246,12 +246,14 @@ public class Enemy : MonoBehaviour
             {
                 if (instance.currArea.isSearched == false)
                 {
+                    //if area is not searched then go to that area
                     _isAreaSet = true;
                     MoveToArea(instance.currArea);
                     break;
                 }
                 else
                 {
+                    //if the area is searched go tot he next area
                     _isAreaSet = true;
                     instance.currArea = instance.currArea.Neighbour;
                     Debug.Log("new area is " + instance.currArea);
