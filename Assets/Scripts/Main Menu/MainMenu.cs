@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     private void Awake()
     {
-        Cursor.visible = false;
+        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
 
@@ -18,6 +18,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
+        Cursor.visible = false;
         SceneManager.LoadScene("DungeonScene");
     }
 
