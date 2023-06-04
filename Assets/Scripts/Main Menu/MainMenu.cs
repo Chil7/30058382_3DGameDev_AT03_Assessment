@@ -11,11 +11,6 @@ public class MainMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
     }
 
-    void Start()
-    {
-        
-    }
-
     public void StartGame()
     {
         Cursor.visible = false;

@@ -59,12 +59,16 @@ public class GameManager : MonoBehaviour
     //Disables the player and pops out the option if player wants to restart or go to main menu
     private void GameOver()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
         gameOverPanel.SetActive(true);
         player.enabled = false;
     }
 
     private void Victory()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
         victoryPanel.SetActive(true);
         player.enabled = false;
     }

@@ -11,7 +11,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Animator animator;
 
     //GameOver
-    private bool playerCaught = false;
     public delegate void GameEndDelegate();
     public event GameEndDelegate GameOverEvent = delegate { };
 
@@ -35,6 +34,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] LayerMask whatIsGround;
     [SerializeField] float huntPointRange;
 
+    //Attack
+    [SerializeField] private GameObject enemySword;
     public StateMachine StateMachine { get; private set; }
 
     private void Awake()
@@ -57,6 +58,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         StateMachine.SetState(new IdleState(this));
+
+        enemySword.GetComponent<Collider>().enabled = false;
     }
 
     // Update is called once per frame
@@ -100,9 +103,8 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
-            Debug.Log("On Idle");
-            instance.animator.SetTrigger("IsIdle");
             instance.agent.speed = 0;
+            instance.animator.SetTrigger("IsIdle");
             timeSecondsIdle = Random.Range(3f, 10f);
             instance.StartCoroutine(StopIdle());
         }
@@ -142,10 +144,8 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
-            Debug.Log("On Patrol");
-
-            instance.animator.SetTrigger("IsPatrol");
             instance.agent.speed = instance.patrolSpeed;
+            instance.animator.SetTrigger("IsPatrol");
 
             SearchNewAreaToPatrol();
         }
@@ -277,19 +277,20 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
-            Debug.Log("On Chase");
-            instance.animator.SetTrigger("IsChase");
             instance.agent.speed = instance.chaseSpeed;
+            instance.animator.SetTrigger("IsChase");
         }
 
         public override void OnUpdate()
         {
+            //if player is within attack range, attack player
             if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.attackDistance)
             {
                 instance.StateMachine.SetState(new AttackState(instance));
             }
             else
             {
+                //keep chasing player
                 instance.agent.SetDestination(instance.playerTarget.transform.position);
             }
             
@@ -310,16 +311,15 @@ public class Enemy : MonoBehaviour
         //Timer
         float timeSecondsHunt;
 
-        //Hunting
+        //Hunting variables
         Vector3 huntPoint;
         bool huntPointSet;
 
 
         public override void OnEnter()
         {
-            Debug.Log("Hunting");
-            instance.animator.SetTrigger("IsHunt");
             instance.agent.speed = instance.huntingSpeed;
+            instance.animator.SetTrigger("IsHunt");
             timeSecondsHunt = Random.Range(8f, 10f);
             instance.StartCoroutine(StopHunt());
         }
@@ -344,6 +344,7 @@ public class Enemy : MonoBehaviour
 
         private void Hunting()
         {
+            //if there is no point set for enemy to go, create a new one
             if (!huntPointSet)
             {
                 SearchHuntPoint();
@@ -399,15 +400,14 @@ public class Enemy : MonoBehaviour
         public override void OnEnter()
         {
             instance.StopAllCoroutines();
-            Debug.Log("On Stun");
-            instance.animator.SetTrigger("IsStun");
             instance.agent.speed = 0;
+            instance.animator.SetTrigger("IsStun");
             instance.StartCoroutine(StopStun());
         }
 
         public override void OnUpdate()
         {
-
+            
         }
 
         public override void OnExit()
@@ -432,12 +432,15 @@ public class Enemy : MonoBehaviour
         {
         }
 
+        float timeSecondAfter = 3.5f;
+
         public override void OnEnter()
         {
-            Debug.Log("On Attack");
-            instance.animator.SetTrigger("IsAttack");
+            TurnOnSwordCollider();
             instance.agent.speed = 0;
-            instance.playerCaught = true;
+            instance.animator.SetTrigger("IsAttack");
+            instance.StartCoroutine(StartChase());
+            
         }
 
         public override void OnUpdate()
@@ -447,11 +450,34 @@ public class Enemy : MonoBehaviour
 
         public override void OnExit()
         {
-
+            TurnOffSwordCollider();
         }
-        
+
+        IEnumerator StartChase()
+        {
+            while (timeSecondAfter > 0)
+            {
+                yield return new WaitForSeconds(1f);
+                timeSecondAfter--;
+            }
+            instance.StateMachine.SetState(new ChaseState(instance));
+        }
+
+        public void TurnOnSwordCollider()
+        {
+            instance.enemySword.GetComponent<Collider>().enabled = true;
+        }
+
+        public void TurnOffSwordCollider()
+        {
+            instance.enemySword.GetComponent<Collider>().enabled = false;
+        }
     }
-    
+
+    public void GameOver()
+    {
+        GameOverEvent.Invoke();
+    }
 
     private void OnDrawGizmos()
     {
