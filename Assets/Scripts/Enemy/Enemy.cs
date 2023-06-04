@@ -8,7 +8,7 @@ using FSM;
 public class Enemy : MonoBehaviour
 {
     private NavMeshAgent agent;
-    private Animator animator;
+    [SerializeField] private Animator animator;
 
     //GameOver
     private bool playerCaught = false;
@@ -44,11 +44,6 @@ public class Enemy : MonoBehaviour
         if(!TryGetComponent<NavMeshAgent>(out agent))
         {
             Debug.LogError("This object needs an object agent attached to it");
-        }
-
-        if (!GetComponentInChildren<Animator>())
-        {
-            Debug.LogError("This object needs an animator attached to it");
         }
 
         if(currArea == null)
@@ -106,7 +101,7 @@ public class Enemy : MonoBehaviour
         public override void OnEnter()
         {
             Debug.Log("On Idle");
-            //play idle animation
+            instance.animator.SetTrigger("IsIdle");
             instance.agent.speed = 0;
             timeSecondsIdle = Random.Range(3f, 10f);
             instance.StartCoroutine(StopIdle());
@@ -149,7 +144,7 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("On Patrol");
 
-            //play walk cycle animation
+            instance.animator.SetTrigger("IsPatrol");
             instance.agent.speed = instance.patrolSpeed;
 
             SearchNewAreaToPatrol();
@@ -283,7 +278,7 @@ public class Enemy : MonoBehaviour
         public override void OnEnter()
         {
             Debug.Log("On Chase");
-            //play run cycle animation
+            instance.animator.SetTrigger("IsChase");
             instance.agent.speed = instance.chaseSpeed;
         }
 
@@ -323,7 +318,7 @@ public class Enemy : MonoBehaviour
         public override void OnEnter()
         {
             Debug.Log("Hunting");
-            //play walk hunting animation (similar to walk)
+            instance.animator.SetTrigger("IsHunt");
             instance.agent.speed = instance.huntingSpeed;
             timeSecondsHunt = Random.Range(8f, 10f);
             instance.StartCoroutine(StopHunt());
@@ -405,7 +400,7 @@ public class Enemy : MonoBehaviour
         {
             instance.StopAllCoroutines();
             Debug.Log("On Stun");
-            //play stunned animation
+            instance.animator.SetTrigger("IsStun");
             instance.agent.speed = 0;
             instance.StartCoroutine(StopStun());
         }
@@ -440,7 +435,7 @@ public class Enemy : MonoBehaviour
         public override void OnEnter()
         {
             Debug.Log("On Attack");
-            //play punch animation
+            instance.animator.SetTrigger("IsAttack");
             instance.agent.speed = 0;
             instance.playerCaught = true;
         }
