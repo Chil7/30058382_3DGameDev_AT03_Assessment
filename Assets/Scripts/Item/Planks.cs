@@ -15,14 +15,14 @@ public class Planks : MonoBehaviour
         {
             if (playerInventory.plankObtained == false)
             {
+                ErrorManager.errorManager.Popup("Plank");
                 FindObjectOfType<AudioManager>().Play("PickUpPlank");
                 playerInventory.plankObtained = true;
                 Destroy(gameObject);
             }
             else
             {
-                //Tell that player can only pick up 1 plank
-                Debug.Log("Can pick 1");
+                ErrorManager.errorManager.Error(1, "plank");
             }
         }
     }

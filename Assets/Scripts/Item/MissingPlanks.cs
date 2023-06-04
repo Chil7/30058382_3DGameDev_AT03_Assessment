@@ -20,5 +20,9 @@ public class MissingPlanks : MonoBehaviour, IInteraction
             Instantiate(plank, transform.position, transform.rotation);
             this.gameObject.SetActive(false);
         }
+        else
+        {
+            ErrorManager.errorManager.Error(3, null);
+        }
     }
 }

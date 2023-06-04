@@ -11,6 +11,7 @@ public class ItemCollectibles : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            ErrorManager.errorManager.Popup(items.ToString());
             FindObjectOfType<AudioManager>().Play("PickUpKey");
 
             if (other.GetComponent<Inventory>().PickUp(items) == true)
@@ -21,4 +22,4 @@ public class ItemCollectibles : MonoBehaviour
     }
 } 
 
-public enum ItemType { exitKey, balconyKey, throneKey, cellKey, jailKey }
+public enum ItemType { ExitKey, BalconyKey, ThroneKey, CellKey, JailKey }

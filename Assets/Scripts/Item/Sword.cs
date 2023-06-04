@@ -13,6 +13,7 @@ public class Sword : MonoBehaviour, IInteraction
 
         if (playerInventory.swordObtained == false)
         {
+            ErrorManager.errorManager.Popup("Sword");
             FindObjectOfType<AudioManager>().Play("SwordPickUp");
             playerInventory.swordObtained = true;
             Destroy(gameObject);
@@ -20,7 +21,7 @@ public class Sword : MonoBehaviour, IInteraction
         
         else
         {
-            //Tell player can only equip 1 sword at a time
+            ErrorManager.errorManager.Error(1, "sword");
         }
     }
 

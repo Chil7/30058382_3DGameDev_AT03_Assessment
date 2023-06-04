@@ -33,7 +33,7 @@ public class Door : MonoBehaviour, IInteraction
         else
         {
             FindObjectOfType<AudioManager>().Play("DoorLock");
-            Debug.Log("Lock");
+            ErrorManager.errorManager.Error(2, item.ToString());
         }
     }
 }
