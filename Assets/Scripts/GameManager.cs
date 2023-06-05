@@ -56,6 +56,14 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<GameEnd>().GameWinEvent += Victory;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     //Disables the player and pops out the option if player wants to restart or go to main menu
     private void GameOver()
     {
