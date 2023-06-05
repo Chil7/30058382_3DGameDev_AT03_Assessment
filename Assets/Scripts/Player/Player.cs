@@ -133,7 +133,6 @@ public class Player : MonoBehaviour
         {
             velocity = -gravity * Time.deltaTime;
             velocity = jumpForce;
-
         }
     }
 

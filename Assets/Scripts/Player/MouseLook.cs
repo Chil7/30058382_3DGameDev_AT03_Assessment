@@ -10,10 +10,11 @@ public class MouseLook : MonoBehaviour
 
     //Mouse Look
     [HideInInspector]
-    public float mouseSensitivity = 0.5f;
+    public float mouseSensitivity;
     [HideInInspector]
     public float clampAngle = 80.0f;
 
+    Vector2 rotate;
     private float rotY = 0.0f; // rotation around the up/y axis
     private float rotX = 0.0f; // rotation around the right/x axis
 
@@ -27,10 +28,17 @@ public class MouseLook : MonoBehaviour
     {
         controls = new PlayerControls();
 
+        //Interact
         controls.Gameplay.InteractKeyboard.performed += ctx => InteractWorldObject();
         controls.Gameplay.InteractGamepad.performed += ctx => InteractWorldObject();
+
+        //Attack
         controls.Gameplay.ShootKeyboard.performed += ctx => Attack();
         controls.Gameplay.ShootGamepad.performed += ctx => Attack();
+
+        //Rotate
+        controls.Gameplay.RotationKeyboard.performed += ctx => rotate = ctx.ReadValue<Vector2>();
+        controls.Gameplay.RotationKeyboard.canceled += ctx => rotate = Vector2.zero;
 
         //Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -40,6 +48,8 @@ public class MouseLook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mouseSensitivity = 10f;
+
         //Mouse Look
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
@@ -50,8 +60,8 @@ public class MouseLook : MonoBehaviour
     void Update()
     {
         //Mouse look
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = -Input.GetAxis("Mouse Y");
+        float mouseX = rotate.x;
+        float mouseY = -rotate.y;
 
         rotY += mouseX * mouseSensitivity * Time.deltaTime;
         rotX += mouseY * mouseSensitivity * Time.deltaTime;

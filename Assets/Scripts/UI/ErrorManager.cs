@@ -50,7 +50,7 @@ public class ErrorManager : MonoBehaviour
                     break;
 
                 case 1:
-                    errorText.text = "You can only pick one " + item + "at a time";
+                    errorText.text = "You can only pick one " + item + " at a time";
                     break;
             }
         }

@@ -18,7 +18,7 @@
                     "name": "Rotation (Keyboard)",
                     "type": "Value",
                     "id": "006783c1-b52d-4dbb-b520-b993c3665cbc",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -63,7 +63,7 @@
                     "name": "Rotation (Gamepad)",
                     "type": "Value",
                     "id": "8e5e846c-52e1-4007-8461-fa95dae92e3a",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -99,19 +99,8 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "dace779a-59b4-4eb2-8f43-aac3ff62618d",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Rotation (Keyboard)",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d718a0aa-fbd8-4e62-b389-390cb6624818",
-                    "path": "<Gamepad>/rightStick",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -292,6 +281,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump (Gamepad)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "993817bc-4337-43ac-b80b-0bff9f56e174",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotation (Keyboard)",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

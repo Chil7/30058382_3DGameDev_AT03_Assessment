@@ -433,11 +433,14 @@ public class Enemy : MonoBehaviour
         }
 
         float timeSecondAfter = 3.5f;
+        private GameObject player;
 
         public override void OnEnter()
         {
+            player = GameObject.FindWithTag("Player");
             TurnOnSwordCollider();
             instance.agent.speed = 0;
+            instance.transform.LookAt(player.transform);
             instance.animator.SetTrigger("IsAttack");
             instance.StartCoroutine(StartChase());
             

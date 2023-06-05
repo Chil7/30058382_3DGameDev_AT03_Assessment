@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameHUD : MonoBehaviour
 {
@@ -64,5 +65,15 @@ public class GameHUD : MonoBehaviour
                 crosshair.SetActive(true);
             }
         }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("DungeonScene");
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenuScene");
     }
 }
