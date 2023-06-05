@@ -40,8 +40,18 @@ public class Player : MonoBehaviour
     {
         controls = new PlayerControls();
 
+        //Keyboard Movement
         controls.Gameplay.MovementKeyboard.performed += ctx => motion = ctx.ReadValue<Vector2>();
         controls.Gameplay.MovementKeyboard.canceled += ctx => motion = Vector2.zero;
+
+        //Gamepad Movement
+        controls.Gameplay.MovementGamepad.performed += ctx => motion = ctx.ReadValue<Vector2>();
+        controls.Gameplay.MovementGamepad.canceled += ctx => motion = Vector2.zero;
+
+        //Jump
+        controls.Gameplay.JumpKeyboard.performed += ctx => Jump();
+        controls.Gameplay.JumpGamepad.performed += ctx => Jump();
+
 
         if (!TryGetComponent<CharacterController>(out controller))
         {
@@ -86,10 +96,7 @@ public class Player : MonoBehaviour
         {
             velocity = -gravity * Time.deltaTime;
 
-            if (Input.GetKeyDown(KeyCode.Space) == true)
-            {
-                velocity = jumpForce;
-            }
+            
 
         }
         else
@@ -117,6 +124,16 @@ public class Player : MonoBehaviour
         if (controller.enabled)
         {
             controller.Move(playerMotion);
+        }
+    }
+
+    void Jump()
+    {
+        if (controller.isGrounded == true)
+        {
+            velocity = -gravity * Time.deltaTime;
+            velocity = jumpForce;
+
         }
     }
 

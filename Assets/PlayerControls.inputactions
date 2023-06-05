@@ -42,10 +42,19 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Jump (Keyboard)",
+                    "type": "Button",
+                    "id": "b67eaf55-1fdf-4b45-9040-ddd08c701196",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Movement (Gamepad)",
                     "type": "Value",
                     "id": "f43dba6c-9a63-415d-8a15-0c448d9655cf",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -76,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Jump (Gamepad)",
+                    "type": "Button",
+                    "id": "81209497-315a-4d61-ba1a-0b858385181c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -87,17 +105,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Rotation (Keyboard)",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3de1a28c-6385-4e69-86ed-deddb6c4f255",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement (Gamepad)",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -126,7 +133,7 @@
                 {
                     "name": "",
                     "id": "616f75d9-c33c-473e-844c-5ef5b71d3dae",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -210,6 +217,83 @@
                     "action": "Movement (Keyboard)",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "LeftJoystick",
+                    "id": "87895408-1f66-4b5e-8ba1-61ff77e2f9af",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement (Gamepad)",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "dcc57355-72ba-4fb0-9349-9c6ec00c3dc1",
+                    "path": "<Joystick>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement (Gamepad)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "9926af7d-a280-497d-b874-180ae60f5b71",
+                    "path": "<Joystick>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement (Gamepad)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "c144bf79-0011-44f9-b02e-7b39d947ef99",
+                    "path": "<Joystick>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement (Gamepad)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "a1484ed4-cac1-4a46-b69e-185d24934d9b",
+                    "path": "<Joystick>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement (Gamepad)",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "456e3a90-c0b3-4d87-8d26-74adf6d68672",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump (Keyboard)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "75a4dc91-1e3d-4de5-aa08-91f82e84e0bd",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump (Gamepad)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

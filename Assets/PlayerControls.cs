@@ -64,10 +64,19 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Jump (Keyboard)"",
+                    ""type"": ""Button"",
+                    ""id"": ""b67eaf55-1fdf-4b45-9040-ddd08c701196"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Movement (Gamepad)"",
                     ""type"": ""Value"",
                     ""id"": ""f43dba6c-9a63-415d-8a15-0c448d9655cf"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -98,6 +107,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump (Gamepad)"",
+                    ""type"": ""Button"",
+                    ""id"": ""81209497-315a-4d61-ba1a-0b858385181c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -109,17 +127,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Rotation (Keyboard)"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3de1a28c-6385-4e69-86ed-deddb6c4f255"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement (Gamepad)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -148,7 +155,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""616f75d9-c33c-473e-844c-5ef5b71d3dae"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -232,6 +239,83 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Movement (Keyboard)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""LeftJoystick"",
+                    ""id"": ""87895408-1f66-4b5e-8ba1-61ff77e2f9af"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement (Gamepad)"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""dcc57355-72ba-4fb0-9349-9c6ec00c3dc1"",
+                    ""path"": ""<Joystick>/stick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement (Gamepad)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""9926af7d-a280-497d-b874-180ae60f5b71"",
+                    ""path"": ""<Joystick>/stick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement (Gamepad)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""c144bf79-0011-44f9-b02e-7b39d947ef99"",
+                    ""path"": ""<Joystick>/stick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement (Gamepad)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a1484ed4-cac1-4a46-b69e-185d24934d9b"",
+                    ""path"": ""<Joystick>/stick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement (Gamepad)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""456e3a90-c0b3-4d87-8d26-74adf6d68672"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump (Keyboard)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75a4dc91-1e3d-4de5-aa08-91f82e84e0bd"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump (Gamepad)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -244,10 +328,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Gameplay_RotationKeyboard = m_Gameplay.FindAction("Rotation (Keyboard)", throwIfNotFound: true);
         m_Gameplay_InteractKeyboard = m_Gameplay.FindAction("Interact (Keyboard)", throwIfNotFound: true);
         m_Gameplay_ShootKeyboard = m_Gameplay.FindAction("Shoot (Keyboard)", throwIfNotFound: true);
+        m_Gameplay_JumpKeyboard = m_Gameplay.FindAction("Jump (Keyboard)", throwIfNotFound: true);
         m_Gameplay_MovementGamepad = m_Gameplay.FindAction("Movement (Gamepad)", throwIfNotFound: true);
         m_Gameplay_RotationGamepad = m_Gameplay.FindAction("Rotation (Gamepad)", throwIfNotFound: true);
         m_Gameplay_InteractGamepad = m_Gameplay.FindAction("Interact (Gamepad)", throwIfNotFound: true);
         m_Gameplay_ShootGamepad = m_Gameplay.FindAction("Shoot (Gamepad)", throwIfNotFound: true);
+        m_Gameplay_JumpGamepad = m_Gameplay.FindAction("Jump (Gamepad)", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -311,10 +397,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_RotationKeyboard;
     private readonly InputAction m_Gameplay_InteractKeyboard;
     private readonly InputAction m_Gameplay_ShootKeyboard;
+    private readonly InputAction m_Gameplay_JumpKeyboard;
     private readonly InputAction m_Gameplay_MovementGamepad;
     private readonly InputAction m_Gameplay_RotationGamepad;
     private readonly InputAction m_Gameplay_InteractGamepad;
     private readonly InputAction m_Gameplay_ShootGamepad;
+    private readonly InputAction m_Gameplay_JumpGamepad;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -323,10 +411,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @RotationKeyboard => m_Wrapper.m_Gameplay_RotationKeyboard;
         public InputAction @InteractKeyboard => m_Wrapper.m_Gameplay_InteractKeyboard;
         public InputAction @ShootKeyboard => m_Wrapper.m_Gameplay_ShootKeyboard;
+        public InputAction @JumpKeyboard => m_Wrapper.m_Gameplay_JumpKeyboard;
         public InputAction @MovementGamepad => m_Wrapper.m_Gameplay_MovementGamepad;
         public InputAction @RotationGamepad => m_Wrapper.m_Gameplay_RotationGamepad;
         public InputAction @InteractGamepad => m_Wrapper.m_Gameplay_InteractGamepad;
         public InputAction @ShootGamepad => m_Wrapper.m_Gameplay_ShootGamepad;
+        public InputAction @JumpGamepad => m_Wrapper.m_Gameplay_JumpGamepad;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -348,6 +438,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShootKeyboard.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShootKeyboard;
                 @ShootKeyboard.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShootKeyboard;
                 @ShootKeyboard.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShootKeyboard;
+                @JumpKeyboard.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJumpKeyboard;
+                @JumpKeyboard.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJumpKeyboard;
+                @JumpKeyboard.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJumpKeyboard;
                 @MovementGamepad.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovementGamepad;
                 @MovementGamepad.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovementGamepad;
                 @MovementGamepad.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovementGamepad;
@@ -360,6 +453,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShootGamepad.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShootGamepad;
                 @ShootGamepad.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShootGamepad;
                 @ShootGamepad.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShootGamepad;
+                @JumpGamepad.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJumpGamepad;
+                @JumpGamepad.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJumpGamepad;
+                @JumpGamepad.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJumpGamepad;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -376,6 +472,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShootKeyboard.started += instance.OnShootKeyboard;
                 @ShootKeyboard.performed += instance.OnShootKeyboard;
                 @ShootKeyboard.canceled += instance.OnShootKeyboard;
+                @JumpKeyboard.started += instance.OnJumpKeyboard;
+                @JumpKeyboard.performed += instance.OnJumpKeyboard;
+                @JumpKeyboard.canceled += instance.OnJumpKeyboard;
                 @MovementGamepad.started += instance.OnMovementGamepad;
                 @MovementGamepad.performed += instance.OnMovementGamepad;
                 @MovementGamepad.canceled += instance.OnMovementGamepad;
@@ -388,6 +487,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShootGamepad.started += instance.OnShootGamepad;
                 @ShootGamepad.performed += instance.OnShootGamepad;
                 @ShootGamepad.canceled += instance.OnShootGamepad;
+                @JumpGamepad.started += instance.OnJumpGamepad;
+                @JumpGamepad.performed += instance.OnJumpGamepad;
+                @JumpGamepad.canceled += instance.OnJumpGamepad;
             }
         }
     }
@@ -398,9 +500,11 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnRotationKeyboard(InputAction.CallbackContext context);
         void OnInteractKeyboard(InputAction.CallbackContext context);
         void OnShootKeyboard(InputAction.CallbackContext context);
+        void OnJumpKeyboard(InputAction.CallbackContext context);
         void OnMovementGamepad(InputAction.CallbackContext context);
         void OnRotationGamepad(InputAction.CallbackContext context);
         void OnInteractGamepad(InputAction.CallbackContext context);
         void OnShootGamepad(InputAction.CallbackContext context);
+        void OnJumpGamepad(InputAction.CallbackContext context);
     }
 }
