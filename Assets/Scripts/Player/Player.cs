@@ -1,25 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Audio;
 using Items;
 
 public class Player : MonoBehaviour
 {
-    private Rigidbody rb;
-    private Animator animator;
     private AudioSource audioSource;
 
     //SwordEquipped
     [SerializeField] private GameObject swordEquipped;
 
     //Movement
+    PlayerControls controls;
+
     [Range(1, 20)]
     [SerializeField] private float walkSpeed = 4f;
 
     private float currentSpeed;
 
-    private Vector3 motion;
+    private Vector3 playerMotion;
+    private Vector2 motion;
     private CharacterController controller;
     private float velocity = 0;
 
@@ -36,6 +38,11 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        controls = new PlayerControls();
+
+        controls.Gameplay.MovementKeyboard.performed += ctx => motion = ctx.ReadValue<Vector2>();
+        controls.Gameplay.MovementKeyboard.canceled += ctx => motion = Vector2.zero;
+
         if (!TryGetComponent<CharacterController>(out controller))
         {
             Debug.LogError("This object needs a Character Controller");
@@ -71,8 +78,9 @@ public class Player : MonoBehaviour
         }
 
         //Movement
-        motion = Vector3.zero;
+        playerMotion = Vector3.zero;
         ApplyMovement();
+
 
         if (controller.isGrounded == true)
         {
@@ -101,13 +109,24 @@ public class Player : MonoBehaviour
 
     void ApplyMovement()
     {
-        motion += transform.forward * Input.GetAxisRaw("Vertical") * currentSpeed * Time.deltaTime;
-        motion += transform.right * Input.GetAxisRaw("Horizontal") * currentSpeed * Time.deltaTime;
-        motion.y += velocity;
+
+        playerMotion += transform.forward * motion.y * currentSpeed * Time.deltaTime;
+        playerMotion += transform.right * motion.x * currentSpeed * Time.deltaTime;
+        playerMotion.y += velocity;
 
         if (controller.enabled)
         {
-            controller.Move(motion);
+            controller.Move(playerMotion);
         }
+    }
+
+    public void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+
+    public void OnDisable()
+    {
+        controls.Gameplay.Disable();
     }
 }

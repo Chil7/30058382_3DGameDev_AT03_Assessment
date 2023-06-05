@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MouseLook : MonoBehaviour
 {
     private GameObject player;
+    PlayerControls controls;
 
     //Mouse Look
     [HideInInspector]
@@ -23,6 +25,13 @@ public class MouseLook : MonoBehaviour
 
     private void Awake()
     {
+        controls = new PlayerControls();
+
+        controls.Gameplay.InteractKeyboard.performed += ctx => InteractWorldObject();
+        controls.Gameplay.InteractGamepad.performed += ctx => InteractWorldObject();
+        controls.Gameplay.ShootKeyboard.performed += ctx => Attack();
+        controls.Gameplay.ShootGamepad.performed += ctx => Attack();
+
         //Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         character = transform.root;
@@ -54,17 +63,6 @@ public class MouseLook : MonoBehaviour
         Quaternion characterRotation = Quaternion.Euler(0.0f, rotY, 0.0f);
         character.rotation = characterRotation;
 
-        //Interact
-        if (Input.GetKeyDown(KeyCode.E))
-        { 
-            InteractWorldObject();
-        }
-
-        //Shoot Taser
-        if (Input.GetMouseButtonDown(0))
-        {
-            Attack();
-        }
     }
 
     public void InteractWorldObject()
@@ -112,6 +110,16 @@ public class MouseLook : MonoBehaviour
         Gizmos.color = Color.red;
         Vector3 shootDirection = transform.TransformDirection(Vector3.forward) * attackDist;
         Gizmos.DrawRay(transform.position, shootDirection);
+    }
+
+    public void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+
+    public void OnDisable()
+    {
+        controls.Gameplay.Disable();
     }
 }
 
