@@ -103,8 +103,9 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
-            instance.agent.speed = 0;
+            
             instance.animator.SetTrigger("IsIdle");
+            instance.agent.speed = 0;
             timeSecondsIdle = Random.Range(3f, 10f);
             instance.StartCoroutine(StopIdle());
         }
@@ -144,8 +145,8 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
-            instance.agent.speed = instance.patrolSpeed;
             instance.animator.SetTrigger("IsPatrol");
+            instance.agent.speed = instance.patrolSpeed;
 
             SearchNewAreaToPatrol();
         }
@@ -277,8 +278,8 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
-            instance.agent.speed = instance.chaseSpeed;
             instance.animator.SetTrigger("IsChase");
+            instance.agent.speed = instance.chaseSpeed;
         }
 
         public override void OnUpdate()
@@ -318,8 +319,8 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
-            instance.agent.speed = instance.huntingSpeed;
             instance.animator.SetTrigger("IsHunt");
+            instance.agent.speed = instance.huntingSpeed;
             timeSecondsHunt = Random.Range(8f, 10f);
             instance.StartCoroutine(StopHunt());
         }
@@ -400,8 +401,8 @@ public class Enemy : MonoBehaviour
         public override void OnEnter()
         {
             instance.StopAllCoroutines();
-            instance.agent.speed = 0;
             instance.animator.SetTrigger("IsStun");
+            instance.agent.speed = 0;
             instance.StartCoroutine(StopStun());
         }
 
@@ -412,7 +413,7 @@ public class Enemy : MonoBehaviour
 
         public override void OnExit()
         {
-
+            instance.agent.speed = instance.huntingSpeed;
         }
 
         IEnumerator StopStun()

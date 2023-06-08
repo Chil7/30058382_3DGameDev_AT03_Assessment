@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameHUD : MonoBehaviour
 {
+    private GameObject player;
     [SerializeField] private GameObject mainCamera;
 
     //crosshairs
@@ -16,6 +17,11 @@ public class GameHUD : MonoBehaviour
     [SerializeField] private GameObject key_crosshair;
     [SerializeField] private GameObject pickup_crosshair;
     [SerializeField] private GameObject plank_crosshair;
+
+    private void Start()
+    {
+        player = GameObject.FindWithTag("Player");
+    }
 
     private void Update()
     {
@@ -41,7 +47,7 @@ public class GameHUD : MonoBehaviour
                 UpdateCrosshair(pickup_crosshair);
             }
 
-            if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy _enemy))
+            if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy _enemy) && player.GetComponent<Inventory>().swordObtained == true)
             {
                 UpdateCrosshair(attack_crosshair);
             }
