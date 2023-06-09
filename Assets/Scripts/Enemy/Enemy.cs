@@ -36,6 +36,9 @@ public class Enemy : MonoBehaviour
 
     //Attack
     [SerializeField] private GameObject enemySword;
+
+    //Debug
+    Vector3 huntPointDebug;
     public StateMachine StateMachine { get; private set; }
 
     private void Awake()
@@ -327,6 +330,7 @@ public class Enemy : MonoBehaviour
 
         public override void OnUpdate()
         {
+            instance.huntPointDebug = huntPoint;
             //If player is within detection range; Chase player
             if (Vector3.Distance(instance.transform.position, instance.playerTarget.transform.position) < instance.detectionDistance)
             {
@@ -375,7 +379,7 @@ public class Enemy : MonoBehaviour
 
             if (Physics.Raycast(huntPoint, -instance.transform.up, 2f, instance.whatIsGround))
             {
-                huntPointSet = true;
+                huntPointSet = true;          
             }
         }
 
@@ -388,6 +392,7 @@ public class Enemy : MonoBehaviour
             }
             instance.StateMachine.SetState(new PatrolState(instance));
         }
+
     }
 
     public class StunState : EnemyMoveState
@@ -496,6 +501,9 @@ public class Enemy : MonoBehaviour
         //Hunting Range
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, huntPointRange);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawLine(transform.position, huntPointDebug);
     }
 
     

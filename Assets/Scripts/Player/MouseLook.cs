@@ -51,7 +51,7 @@ public class MouseLook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mouseSensitivity = 50f;
+        mouseSensitivity = 75f;
 
         //Mouse Look
         Vector3 rot = transform.localRotation.eulerAngles;
