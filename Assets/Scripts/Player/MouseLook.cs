@@ -19,7 +19,7 @@ public class MouseLook : MonoBehaviour
     private float rotX = 0.0f; // rotation around the right/x axis
 
     //Raycast Distance
-    public int interactDist = 3;
+    public int interactDist = 5;
     public int attackDist = 2;
 
     private Transform character;
@@ -40,6 +40,9 @@ public class MouseLook : MonoBehaviour
         controls.Gameplay.RotationKeyboard.performed += ctx => rotate = ctx.ReadValue<Vector2>();
         controls.Gameplay.RotationKeyboard.canceled += ctx => rotate = Vector2.zero;
 
+        controls.Gameplay.RotationGamepad.performed += ctx => rotate = ctx.ReadValue<Vector2>();
+        controls.Gameplay.RotationGamepad.canceled += ctx => rotate = Vector2.zero;
+
         //Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         character = transform.root;
@@ -48,7 +51,7 @@ public class MouseLook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mouseSensitivity = 10f;
+        mouseSensitivity = 50f;
 
         //Mouse Look
         Vector3 rot = transform.localRotation.eulerAngles;
