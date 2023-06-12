@@ -12,6 +12,8 @@ public class MouseLook : MonoBehaviour
     [HideInInspector]
     public float mouseSensitivity;
     [HideInInspector]
+    public float controllerSensitivity;
+    [HideInInspector]
     public float clampAngle = 80.0f;
 
     Vector2 rotate;
@@ -26,6 +28,7 @@ public class MouseLook : MonoBehaviour
 
     private void Awake()
     {
+        controllerSensitivity = 20f;
         controls = new PlayerControls();
 
         //Interact
@@ -40,7 +43,7 @@ public class MouseLook : MonoBehaviour
         controls.Gameplay.RotationKeyboard.performed += ctx => rotate = ctx.ReadValue<Vector2>();
         controls.Gameplay.RotationKeyboard.canceled += ctx => rotate = Vector2.zero;
 
-        controls.Gameplay.RotationGamepad.performed += ctx => rotate = ctx.ReadValue<Vector2>();
+        controls.Gameplay.RotationGamepad.performed += ctx => rotate = ctx.ReadValue<Vector2>() * controllerSensitivity;
         controls.Gameplay.RotationGamepad.canceled += ctx => rotate = Vector2.zero;
 
         //Cursor.visible = false;
@@ -51,7 +54,7 @@ public class MouseLook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mouseSensitivity = 75f;
+        mouseSensitivity = 5f;
 
         //Mouse Look
         Vector3 rot = transform.localRotation.eulerAngles;

@@ -106,7 +106,7 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
-            
+            FindObjectOfType<AudioManager>().Play("EnemyPatrol");
             instance.animator.SetTrigger("IsIdle");
             instance.agent.speed = 0;
             timeSecondsIdle = Random.Range(3f, 10f);
@@ -148,6 +148,7 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
+            FindObjectOfType<AudioManager>().Play("EnemyPatrol");
             instance.animator.SetTrigger("IsPatrol");
             instance.agent.speed = instance.patrolSpeed;
 
@@ -281,6 +282,7 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
+            FindObjectOfType<AudioManager>().Play("EnemyAlert");
             instance.animator.SetTrigger("IsChase");
             instance.agent.speed = instance.chaseSpeed;
         }
@@ -322,6 +324,7 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
+            FindObjectOfType<AudioManager>().Play("EnemyHunt");
             instance.animator.SetTrigger("IsHunt");
             instance.agent.speed = instance.huntingSpeed;
             timeSecondsHunt = Random.Range(8f, 10f);
@@ -405,6 +408,7 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
+            FindObjectOfType<AudioManager>().Play("EnemyHurt");
             instance.StopAllCoroutines();
             instance.animator.SetTrigger("IsStun");
             instance.agent.speed = 0;
@@ -443,6 +447,7 @@ public class Enemy : MonoBehaviour
 
         public override void OnEnter()
         {
+            FindObjectOfType<AudioManager>().Play("EnemyAttack");
             player = GameObject.FindWithTag("Player");
             TurnOnSwordCollider();
             instance.agent.speed = 0;
